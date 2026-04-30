@@ -11,6 +11,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
+  final TextEditingController familyCodeController = TextEditingController();
 
   String role = 'child';
 
@@ -54,6 +55,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
               },
               decoration: InputDecoration(labelText: "Tipo de conta"),
             ),
+            if (role == 'child') ...[
+              SizedBox(height: 10),
+              TextField(
+                controller: familyCodeController,
+                decoration: InputDecoration(labelText: "Código da família"),
+              ),
+            ],
 
             SizedBox(height: 20),
 
@@ -67,6 +75,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       passwordController.text.trim(),
                       role,
                       nameController.text.trim(),
+                      role == 'child' ? familyCodeController.text.trim() : null,
                     );
 
                     if (role == 'parent') {
