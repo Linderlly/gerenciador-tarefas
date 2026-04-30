@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "234853165577",
+    "project_id": "gerenciador-tarefas-a2b1d",
+    "storage_bucket": "gerenciador-tarefas-a2b1d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:234853165577:android:c5de4f1d0d50be69b5e6d8",
+        "android_client_info": {
+          "package_name": "com.example.gerenciador_tarefas"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "234853165577-n0g52ikgi5ivpdmsfpn1mjtdeotphgo3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBnbvM7gy_9m_OgnuO3OoG1axyKXVrZQ5o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "234853165577-n0g52ikgi5ivpdmsfpn1mjtdeotphgo3.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "234853165577-cnvmfi0kgs48as4v1nuic1vmm9llbi5f.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.gerenciadorTarefas"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
