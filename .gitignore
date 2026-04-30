@@ -43,3 +43,13 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+/build/
+.dart_tool/
+.packages
+.pub/
+android/.gradle/
+android/app/build/
+ios/Pods/
+ios/.symlinks/
+.env
