@@ -111,7 +111,7 @@ flutter run
 
 ## Autor
 
-Desenvolvido por **[Seu Nome]**
+Desenvolvido por **Linderlly Santana**
 
 ---
 
