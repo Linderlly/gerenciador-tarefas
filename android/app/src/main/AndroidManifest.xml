@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.gerenciador_tarefas">
     <application
-        android:label="gerenciador_tarefas"
+        android:label="Gerenciador de Tarefas"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
