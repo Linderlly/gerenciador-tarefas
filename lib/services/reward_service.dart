@@ -46,4 +46,19 @@ class RewardService {
       }
     });
   }
+
+  Future<void> deleteReward(String rewardId) async {
+    await _db.collection('rewards').doc(rewardId).delete();
+  }
+
+  Future<void> updateReward(
+    String rewardId, {
+    required String title,
+    required int cost,
+  }) async {
+    await _db.collection('rewards').doc(rewardId).update({
+      'title': title,
+      'cost': cost,
+    });
+  }
 }

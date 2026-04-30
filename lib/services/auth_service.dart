@@ -6,13 +6,23 @@ class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
-  //Registro
+  // GERAR CÓDIGO
+  String generateFamilyCode() {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    Random rand = Random();
+
+    return String.fromCharCodes(
+      Iterable.generate(6, (_) => chars.codeUnitAt(rand.nextInt(chars.length))),
+    );
+  }
+
+  // REGISTRO
   Future<void> register(
     String email,
     String password,
     String role,
     String name,
-    String? familyCodeInput, // novo
+    String? familyCodeInput,
   ) async {
     UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
       email: email,
@@ -24,10 +34,8 @@ class AuthService {
     String familyCode;
 
     if (role == 'parent') {
-      // Pai cria código
       familyCode = generateFamilyCode();
     } else {
-      // Filho usa código digitado
       if (familyCodeInput == null || familyCodeInput.isEmpty) {
         throw Exception("Informe o código da família");
       }
@@ -43,7 +51,7 @@ class AuthService {
     });
   }
 
-  //LOGIN
+  // LOGIN
   Future<User> login(String email, String password) async {
     UserCredential userCredential = await _auth.signInWithEmailAndPassword(
       email: email,
@@ -53,12 +61,8 @@ class AuthService {
     return userCredential.user!;
   }
 
-  String generateFamilyCode() {
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    Random rand = Random();
-
-    return String.fromCharCodes(
-      Iterable.generate(6, (_) => chars.codeUnitAt(rand.nextInt(chars.length))),
-    );
+  // LOGOUT
+  Future<void> logout() async {
+    await _auth.signOut();
   }
 }

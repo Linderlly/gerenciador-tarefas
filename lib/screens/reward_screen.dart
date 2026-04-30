@@ -25,7 +25,11 @@ class RewardScreen extends StatelessWidget {
 
           var userData = userSnapshot.data!.data() as Map<String, dynamic>;
 
-          String familyCode = userData['familyCode'];
+          String? familyCode = userData['familyCode'];
+
+          if (familyCode == null || familyCode.isEmpty) {
+            return Center(child: Text("Código da família não encontrado"));
+          }
 
           return StreamBuilder<QuerySnapshot>(
             stream: rewardService.getRewards(familyCode),
@@ -34,7 +38,7 @@ class RewardScreen extends StatelessWidget {
                 return Center(child: CircularProgressIndicator());
               }
 
-              var rewards = snapshot.data!.docs;
+              var rewards = snapshot.data?.docs ?? [];
 
               if (rewards.isEmpty) {
                 return Center(child: Text("Nenhuma recompensa"));
@@ -45,11 +49,14 @@ class RewardScreen extends StatelessWidget {
                 itemBuilder: (context, index) {
                   var reward = rewards[index];
 
+                  String title = reward['title'] ?? "Sem nome";
+                  int cost = reward['cost'] ?? 0;
+
                   return Card(
                     margin: EdgeInsets.all(10),
                     child: ListTile(
-                      title: Text(reward['title']),
-                      subtitle: Text("Custo: ${reward['cost']} pontos"),
+                      title: Text(title),
+                      subtitle: Text("Custo: $cost pontos"),
                       trailing: ElevatedButton(
                         onPressed: () async {
                           try {

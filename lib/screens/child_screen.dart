@@ -14,10 +14,10 @@ class ChildScreen extends StatelessWidget {
     double width = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      backgroundColor: Colors.grey[100],
+      backgroundColor: Color(0xFFF5F7FA),
+
       appBar: AppBar(
         title: Text("Minhas Tarefas"),
-        elevation: 0,
         actions: [
           IconButton(
             icon: Icon(Icons.card_giftcard),
@@ -28,13 +28,24 @@ class ChildScreen extends StatelessWidget {
               );
             },
           ),
+          IconButton(
+            icon: Icon(Icons.logout),
+            onPressed: () async {
+              await FirebaseAuth.instance.signOut();
+
+              Navigator.of(
+                context,
+              ).pushNamedAndRemoveUntil('/login', (route) => false);
+            },
+          ),
         ],
       ),
-      body: FutureBuilder<DocumentSnapshot>(
-        future: FirebaseFirestore.instance
+
+      body: StreamBuilder<DocumentSnapshot>(
+        stream: FirebaseFirestore.instance
             .collection('users')
             .doc(userId)
-            .get(),
+            .snapshots(),
         builder: (context, userSnapshot) {
           if (!userSnapshot.hasData || !userSnapshot.data!.exists) {
             return Center(child: CircularProgressIndicator());
@@ -42,65 +53,54 @@ class ChildScreen extends StatelessWidget {
 
           var userData = userSnapshot.data!.data() as Map<String, dynamic>;
 
-          String familyCode = userData['familyCode'];
+          String? familyCode = userData['familyCode'];
           String name = userData['name'] ?? "Usuário";
+          int points = userData['points'] ?? 0;
+
+          if (familyCode == null || familyCode.isEmpty) {
+            return Center(child: Text("Família não encontrada"));
+          }
 
           return Column(
             children: [
-              //HEADER
-              StreamBuilder<DocumentSnapshot>(
-                stream: FirebaseFirestore.instance
-                    .collection('users')
-                    .doc(userId)
-                    .snapshots(),
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData || !snapshot.data!.exists) {
-                    return SizedBox();
-                  }
-
-                  var data = snapshot.data!.data() as Map<String, dynamic>;
-
-                  int points = data['points'] ?? 0;
-
-                  return Container(
-                    width: double.infinity,
-                    padding: EdgeInsets.all(25),
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [Colors.blue, Colors.blueAccent],
-                      ),
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(25),
-                        bottomRight: Radius.circular(25),
+              // HEADER
+              Container(
+                width: double.infinity,
+                padding: EdgeInsets.all(25),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Color(0xFF4A90E2), Color(0xFF007AFF)],
+                  ),
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(25),
+                    bottomRight: Radius.circular(25),
+                  ),
+                ),
+                child: Column(
+                  children: [
+                    Text(
+                      "Olá, $name 👋",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: width * 0.06,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                    child: Column(
-                      children: [
-                        Text(
-                          "Olá, $name 👋",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: width * 0.06,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SizedBox(height: 10),
-                        Text(
-                          "$points pontos",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: width * 0.05,
-                          ),
-                        ),
-                      ],
+                    SizedBox(height: 10),
+                    Text(
+                      "$points pontos",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: width * 0.05,
+                      ),
                     ),
-                  );
-                },
+                  ],
+                ),
               ),
 
               SizedBox(height: 10),
 
-              //LISTA
+              // TAREFAS
               Expanded(
                 child: StreamBuilder<QuerySnapshot>(
                   stream: taskService.getTasks(familyCode),
@@ -109,43 +109,41 @@ class ChildScreen extends StatelessWidget {
                       return Center(child: CircularProgressIndicator());
                     }
 
-                    var tasks = snapshot.data!.docs;
+                    var tasks = snapshot.data?.docs ?? [];
 
                     if (tasks.isEmpty) {
                       return Center(child: Text("Nenhuma tarefa"));
                     }
 
                     return ListView.builder(
-                      padding: EdgeInsets.all(10),
                       itemCount: tasks.length,
                       itemBuilder: (context, index) {
                         var task = tasks[index];
+
                         bool completed = task['completed'] ?? false;
+                        String title = task['title'] ?? "Sem título";
+                        int pts = task['points'] ?? 0;
 
                         return Container(
-                          margin: EdgeInsets.only(bottom: 10),
+                          key: ValueKey(task.id), // ESSENCIAL
+                          margin: EdgeInsets.all(10),
                           decoration: BoxDecoration(
                             color: completed ? Colors.green[100] : Colors.white,
                             borderRadius: BorderRadius.circular(15),
                             boxShadow: [
-                              BoxShadow(color: Colors.black12, blurRadius: 5),
+                              BoxShadow(
+                                color: Colors.black12,
+                                blurRadius: 8,
+                                offset: Offset(0, 3),
+                              ),
                             ],
                           ),
                           child: ListTile(
-                            contentPadding: EdgeInsets.all(15),
-                            title: Text(
-                              task['title'],
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            subtitle: Text("${task['points']} pontos"),
+                            title: Text(title),
+                            subtitle: Text("$pts pontos"),
                             trailing: completed
                                 ? Icon(Icons.check_circle, color: Colors.green)
                                 : ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                    ),
                                     onPressed: () async {
                                       await taskService.completeTask(
                                         task.id,

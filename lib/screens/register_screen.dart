@@ -45,7 +45,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             DropdownButtonFormField<String>(
               value: role,
               items: [
-                DropdownMenuItem(value: 'parent', child: Text("Pai")),
+                DropdownMenuItem(value: 'parent', child: Text("Pai/Mãe")),
                 DropdownMenuItem(value: 'child', child: Text("Filho")),
               ],
               onChanged: (value) {
