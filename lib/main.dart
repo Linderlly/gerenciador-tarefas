@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+
 import 'screens/login_screen.dart';
 import 'screens/parent_screen.dart';
 import 'screens/child_screen.dart';
@@ -8,17 +9,34 @@ import 'screens/child_screen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  bool isDark = false;
+
+  void toggleTheme(bool value) {
+    setState(() {
+      isDark = value;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Tarefas dos Filhos',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        brightness: Brightness.light,
         primaryColor: Colors.blue,
         scaffoldBackgroundColor: Colors.grey[100],
         appBarTheme: AppBarTheme(
@@ -35,11 +53,24 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        primaryColor: Colors.blue,
+        scaffoldBackgroundColor: Colors.black,
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.black,
+          elevation: 0,
+          centerTitle: true,
+        ),
+      ),
+      themeMode: isDark ? ThemeMode.dark : ThemeMode.light,
       initialRoute: '/login',
       routes: {
         '/login': (context) => LoginScreen(),
-        '/parent': (context) => ParentScreen(),
-        '/child': (context) => ChildScreen(),
+        '/parent': (context) =>
+            ParentScreen(toggleTheme: toggleTheme, isDark: isDark),
+        '/child': (context) =>
+            ChildScreen(toggleTheme: toggleTheme, isDark: isDark),
       },
     );
   }

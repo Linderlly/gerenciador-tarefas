@@ -1,48 +1,52 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class TaskService {
-  final FirebaseFirestore _db = FirebaseFirestore.instance;
+  final CollectionReference tasks =
+      FirebaseFirestore.instance.collection('tasks');
 
+  // CRIAR TAREFA COM DATA
   Future<void> createTask({
     required String title,
     required int points,
     required String assignedTo,
+    DateTime? date,
   }) async {
-    await _db.collection('tasks').add({
+    await tasks.add({
       'title': title,
       'points': points,
-      'assignedTo': assignedTo, // familyCode
+      'assignedTo': assignedTo,
       'completed': false,
-      'createdAt': Timestamp.now(),
+      'date': date != null ? Timestamp.fromDate(date) : null,
+      'createdAt': FieldValue.serverTimestamp(),
     });
   }
 
+  // BUSCAR TAREFAS POR FAMÍLIA
   Stream<QuerySnapshot> getTasks(String familyCode) {
-    return _db
-        .collection('tasks')
+    return tasks
         .where('assignedTo', isEqualTo: familyCode)
+        .orderBy('createdAt', descending: true)
         .snapshots();
   }
 
+  // CONCLUIR TAREFA + DAR PONTOS
   Future<void> completeTask(String taskId, String userId) async {
-    var taskRef = _db.collection('tasks').doc(taskId);
-    var userRef = _db.collection('users').doc(userId);
+    final taskDoc = await tasks.doc(taskId).get();
 
-    await _db.runTransaction((transaction) async {
-      var taskDoc = await transaction.get(taskRef);
-      var userDoc = await transaction.get(userRef);
+    if (!taskDoc.exists) return;
 
-      if (!taskDoc.exists || !userDoc.exists) return;
+    final data = taskDoc.data() as Map<String, dynamic>;
 
-      bool completed = taskDoc['completed'] ?? false;
+    int points = data['points'] ?? 0;
 
-      if (!completed) {
-        int points = taskDoc['points'] ?? 0;
-        int currentPoints = userDoc['points'] ?? 0;
+    // Atualiza tarefa
+    await tasks.doc(taskId).update({
+      'completed': true,
+    });
 
-        transaction.update(taskRef, {'completed': true});
-        transaction.update(userRef, {'points': currentPoints + points});
-      }
+    // Atualiza pontos do usuário
+    await FirebaseFirestore.instance.collection('users').doc(userId).update({
+      'points': FieldValue.increment(points),
     });
   }
 }
