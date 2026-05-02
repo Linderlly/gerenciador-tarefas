@@ -1,110 +1,97 @@
-# 📱 App de Tarefas em Família
+#  Gerenciador de Tarefas para Pais e Filhos
 
-Aplicativo desenvolvido em Flutter para gerenciamento de tarefas entre responsáveis e filhos, com sistema de pontos, recompensas, calendário e controle de hábitos.
-
----
-
-## 🚀 Funcionalidades
-
-### 👨‍👩‍👧‍👦 Sistema de usuários
-- Login com Firebase Authentication
-- Separação entre responsável (parent) e filho (child)
-- Uso de código de família para conexão entre contas
+Aplicativo mobile desenvolvido em **Flutter** com **Firebase**, que permite pais gerenciarem tarefas e recompensas dos filhos de forma simples e motivadora.
 
 ---
 
-### ✅ Tarefas
-- Responsável pode criar tarefas
-- Definição de pontuação para cada tarefa
-- Associação de tarefas por data
-- Filho pode concluir tarefas e ganhar pontos
+## Funcionalidades
+
+ **Sistema de usuários**
+- Cadastro e login com Firebase Authentication
+- Diferenciação entre **Pais** e **Filhos**
+
+ **Tarefas**
+- Pais criam tarefas para os filhos
+- Filhos visualizam e concluem tarefas
+- Sistema de pontuação automática
+
+ **Sistema de pontos**
+- Acúmulo de pontos ao concluir tarefas
+- Atualização em tempo real
+
+ **Recompensas**
+- Pais criam recompensas
+- Filhos podem resgatar com pontos
+
+ **Experiência personalizada**
+- Mensagem de boas-vindas com nome do usuário
 
 ---
 
-### 📅 Calendário
-- Visualização de tarefas por dia
-- Indicação visual de dias com tarefas
-- Integração com tarefas criadas pelo responsável
-- Disponível na navegação (Drawer) e no Child
-
----
-
-### 🎁 Recompensas
-- Responsável pode criar recompensas
-- Definição de custo em pontos
-- Sistema de troca de pontos pelo filho
-
----
-
-### 💧 Controle de hidratação
-- Responsável define meta diária de água (ml)
-- Filho registra consumo com botão rápido (+200ml)
-- Barra circular de progresso (0% a 100%)
-- Exibição da porcentagem para responsáveis e filhos
-
----
-
-### 🌙 Modo escuro
-- Alternância entre modo claro e escuro
-- Correção de contraste para melhor leitura
-- Aplicado nas principais telas do app
-
----
-
-## 🧱 Tecnologias utilizadas
+## Tecnologias utilizadas
 
 - Flutter
-- Dart
 - Firebase Authentication
 - Cloud Firestore
-- Table Calendar (pacote)
+- Dart
 
 ---
 
-## 📂 Estrutura principal
+## Estrutura do projeto
+
+```
+
 lib/
 ├── screens/
-│ ├── parent_screen.dart
-│ ├── child_screen.dart
-│ ├── calendar_screen.dart
+│   ├── login_screen.dart
+│   ├── register_screen.dart
+│   ├── parent_screen.dart
+│   ├── child_screen.dart
+│   └── reward_screen.dart
 │
 ├── services/
-│ ├── task_service.dart
-│ ├── reward_service.dart
+│   ├── auth_service.dart
+│   ├── task_service.dart
+│   └── reward_service.dart
 │
-├── widgets/
-│ ├── app_drawer.dart
-│ ├── custom_button.dart
+└── main.dart
 
-
----
-
-## 🔥 Funcionalidades recentes
-
-- Adição do modo escuro
-- Integração do calendário com tarefas
-- Remoção do calendário da tela principal do responsável
-- Melhor organização da navegação
-- Sistema de hidratação com progresso visual
-- Limitação visual do progresso até 100%
+````
 
 ---
 
-## 📌 Melhorias futuras
+## Como rodar o projeto
 
-- Reset automático diário da água
-- Notificações de tarefas
-- Histórico de tarefas concluídas
-- Ranking entre filhos
-- Animações e melhorias visuais
+1. Clone o repositório:
 
----
+```bash
+git clone https://github.com/SEU-USUARIO/gerenciador-tarefas.git
+````
 
-## ⚙️ Como rodar o projeto
+2. Acesse a pasta:
+
+```bash
+cd gerenciador-tarefas
+```
+
+3. Instale as dependências:
 
 ```bash
 flutter pub get
+```
+
+4. Configure o Firebase:
+
+* Adicione o arquivo `google-services.json` (Android)
+* Configure o `firebase_options.dart`
+
+5. Execute o app:
+
+```bash
 flutter run
+```
+
+---
 
 ## Funcionalidades futuras
 
