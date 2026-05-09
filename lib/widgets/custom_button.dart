@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../services/audio_service.dart';
 
 class CustomButton extends StatelessWidget {
   final String text;
@@ -14,24 +15,29 @@ class CustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    // COR PRINCIPAL VINDO DO THEME.DART
+    final primary = theme.colorScheme.primary;
+
     return GestureDetector(
       onTap: onPressed,
       child: AnimatedContainer(
         duration: Duration(milliseconds: 200),
-        padding: EdgeInsets.symmetric(vertical: 14),
+        padding: EdgeInsets.symmetric(
+          vertical: 14,
+        ),
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Colors.blueAccent,
-              Colors.purpleAccent,
-            ],
-          ),
+          // REMOVIDO O GRADIENT ROXO
+          color: primary,
+
           borderRadius: BorderRadius.circular(14),
+
           boxShadow: [
             BoxShadow(
-              color: Colors.black26,
-              blurRadius: 6,
-              offset: Offset(0, 3),
+              color: primary.withOpacity(0.25),
+              blurRadius: 8,
+              offset: Offset(0, 4),
             ),
           ],
         ),
@@ -39,7 +45,10 @@ class CustomButton extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             if (icon != null) ...[
-              Icon(icon, color: Colors.white),
+              Icon(
+                icon,
+                color: Colors.white,
+              ),
               SizedBox(width: 8),
             ],
             Text(

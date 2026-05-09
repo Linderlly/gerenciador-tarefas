@@ -4,7 +4,7 @@ class TaskService {
   final CollectionReference tasks =
       FirebaseFirestore.instance.collection('tasks');
 
-  // CRIAR TAREFA COM DATA
+  // CRIAR TAREFA
   Future<void> createTask({
     required String title,
     required int points,
@@ -16,21 +16,30 @@ class TaskService {
       'points': points,
       'assignedTo': assignedTo,
       'completed': false,
-      'date': date != null ? Timestamp.fromDate(date) : null,
-      'createdAt': FieldValue.serverTimestamp(),
+
+      // DATA DA TAREFA
+      'date': date != null ? Timestamp.fromDate(date) : Timestamp.now(),
+
+      // DATA DE CRIAÇÃO
+      'createdAt': Timestamp.now(),
     });
   }
 
-  // BUSCAR TAREFAS POR FAMÍLIA
+  // BUSCAR TAREFAS
   Stream<QuerySnapshot> getTasks(String familyCode) {
     return tasks
-        .where('assignedTo', isEqualTo: familyCode)
-        .orderBy('createdAt', descending: true)
+        .where(
+          'assignedTo',
+          isEqualTo: familyCode,
+        )
         .snapshots();
   }
 
-  // CONCLUIR TAREFA + DAR PONTOS
-  Future<void> completeTask(String taskId, String userId) async {
+  // CONCLUIR TAREFA
+  Future<void> completeTask(
+    String taskId,
+    String userId,
+  ) async {
     final taskDoc = await tasks.doc(taskId).get();
 
     if (!taskDoc.exists) return;
@@ -39,12 +48,12 @@ class TaskService {
 
     int points = data['points'] ?? 0;
 
-    // Atualiza tarefa
+    // MARCA COMO CONCLUÍDA
     await tasks.doc(taskId).update({
       'completed': true,
     });
 
-    // Atualiza pontos do usuário
+    // ADICIONA PONTOS
     await FirebaseFirestore.instance.collection('users').doc(userId).update({
       'points': FieldValue.increment(points),
     });

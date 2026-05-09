@@ -18,41 +18,86 @@ class AppDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    // CORES VINDAS DO THEME.DART
+    final primary = theme.colorScheme.primary;
+    final surface = theme.colorScheme.surface;
+    final textColor = theme.textTheme.bodyLarge?.color;
+
     return Drawer(
+      backgroundColor: surface,
       child: Column(
         children: [
           UserAccountsDrawerHeader(
+            // REMOVIDO O GRADIENT ROXO
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [Colors.blueAccent, Colors.purpleAccent],
+              color: primary,
+            ),
+
+            accountName: Text(
+              name,
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
               ),
             ),
-            accountName: Text(name),
-            accountEmail: Text("Bem-vindo 👋"),
+
+            accountEmail: Text(
+              "Bem-vindo 👋",
+              style: TextStyle(
+                color: Colors.white70,
+              ),
+            ),
+
             currentAccountPicture: CircleAvatar(
-              child: Icon(Icons.person, size: 40),
+              backgroundColor: Colors.white,
+              child: Icon(
+                Icons.person,
+                size: 40,
+                color: primary,
+              ),
             ),
           ),
 
-          // 🌙 MODO ESCURO
+          // MODO ESCURO
           SwitchListTile(
-            title: Text("Modo escuro"),
+            title: Text(
+              "Modo escuro",
+              style: TextStyle(
+                color: textColor,
+              ),
+            ),
             value: isDark,
             onChanged: onThemeChanged,
-            secondary: Icon(Icons.dark_mode),
+            activeColor: primary,
+            secondary: Icon(
+              Icons.dark_mode,
+              color: primary,
+            ),
           ),
 
           Divider(),
 
           // CALENDÁRIO
           ListTile(
-            leading: Icon(Icons.calendar_month),
-            title: Text("Calendário"),
+            leading: Icon(
+              Icons.calendar_month,
+              color: primary,
+            ),
+            title: Text(
+              "Calendário",
+              style: TextStyle(
+                color: textColor,
+              ),
+            ),
             onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => CalendarScreen(isParent: isParent),
+                  builder: (_) => CalendarScreen(
+                    isParent: isParent,
+                  ),
                 ),
               );
             },
@@ -60,15 +105,25 @@ class AppDrawer extends StatelessWidget {
 
           // SOBRE
           ListTile(
-            leading: Icon(Icons.info),
-            title: Text("Sobre o app"),
+            leading: Icon(
+              Icons.info,
+              color: primary,
+            ),
+            title: Text(
+              "Sobre o app",
+              style: TextStyle(
+                color: textColor,
+              ),
+            ),
             onTap: () {
               showAboutDialog(
                 context: context,
                 applicationName: "Gerenciador de Tarefas",
                 applicationVersion: "1.0.0",
                 children: [
-                  Text("Sistema de tarefas com recompensas."),
+                  Text(
+                    "Sistema de tarefas com recompensas.",
+                  ),
                 ],
               );
             },
@@ -78,12 +133,24 @@ class AppDrawer extends StatelessWidget {
 
           // LOGOUT
           ListTile(
-            leading: Icon(Icons.logout, color: Colors.red),
-            title: Text("Sair"),
+            leading: Icon(
+              Icons.logout,
+              color: Colors.red,
+            ),
+            title: Text(
+              "Sair",
+              style: TextStyle(
+                color: textColor,
+              ),
+            ),
             onTap: () async {
               await FirebaseAuth.instance.signOut();
+
               Navigator.pushNamedAndRemoveUntil(
-                  context, '/login', (route) => false);
+                context,
+                '/login',
+                (route) => false,
+              );
             },
           ),
         ],
