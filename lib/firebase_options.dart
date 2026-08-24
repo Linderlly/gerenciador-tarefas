@@ -3,6 +3,7 @@
 import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 /// Default [FirebaseOptions] for use with your Firebase apps.
 ///
@@ -40,52 +41,51 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyCM0JNR0cL8Oyqb3R8OnnF8FLWLrz0QOCI',
-    appId: '1:234853165577:web:ef365dd72ce07223b5e6d8',
-    messagingSenderId: '234853165577',
-    projectId: 'gerenciador-tarefas-a2b1d',
-    authDomain: 'gerenciador-tarefas-a2b1d.firebaseapp.com',
-    storageBucket: 'gerenciador-tarefas-a2b1d.firebasestorage.app',
-    measurementId: 'G-LT8MGHHZHK',
+  static final FirebaseOptions web = FirebaseOptions(
+    apiKey: dotenv.env['WEB_API_KEY'] ?? '',
+    appId: dotenv.env['WEB_APP_ID'] ?? '',
+    messagingSenderId: dotenv.env['WEB_MESSAGING_SENDER_ID'] ?? '',
+    projectId: dotenv.env['WEB_PROJECT_ID'] ?? '',
+    authDomain: dotenv.env['WEB_AUTH_DOMAIN'] ?? '',
+    storageBucket: dotenv.env['WEB_STORAGE_BUCKET'] ?? '',
+    measurementId: dotenv.env['WEB_MEASUREMENT_ID'] ?? '',
   );
 
-  static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBnbvM7gy_9m_OgnuO3OoG1axyKXVrZQ5o',
-    appId: '1:234853165577:android:c5de4f1d0d50be69b5e6d8',
-    messagingSenderId: '234853165577',
-    projectId: 'gerenciador-tarefas-a2b1d',
-    storageBucket: 'gerenciador-tarefas-a2b1d.firebasestorage.app',
+  static final FirebaseOptions android = FirebaseOptions(
+    apiKey: dotenv.env['ANDROID_API_KEY'] ?? '',
+    appId: dotenv.env['ANDROID_APP_ID'] ?? '',
+    messagingSenderId: dotenv.env['ANDROID_MESSAGING_SENDER_ID'] ?? '',
+    projectId: dotenv.env['ANDROID_PROJECT_ID'] ?? '',
+    storageBucket: dotenv.env['ANDROID_STORAGE_BUCKET'] ?? '',
   );
 
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDrSA9u8IBlc_yxPJVENgzUYoQdLCPP3So',
-    appId: '1:234853165577:ios:be992db6ad61965bb5e6d8',
-    messagingSenderId: '234853165577',
-    projectId: 'gerenciador-tarefas-a2b1d',
-    storageBucket: 'gerenciador-tarefas-a2b1d.firebasestorage.app',
-    iosClientId: '234853165577-cnvmfi0kgs48as4v1nuic1vmm9llbi5f.apps.googleusercontent.com',
-    iosBundleId: 'com.example.gerenciadorTarefas',
+  static final FirebaseOptions ios = FirebaseOptions(
+    apiKey: dotenv.env['IOS_API_KEY'] ?? '',
+    appId: dotenv.env['IOS_APP_ID'] ?? '',
+    messagingSenderId: dotenv.env['IOS_MESSAGING_SENDER_ID'] ?? '',
+    projectId: dotenv.env['IOS_PROJECT_ID'] ?? '',
+    storageBucket: dotenv.env['IOS_STORAGE_BUCKET'] ?? '',
+    iosClientId: dotenv.env['IOS_CLIENT_ID'] ?? '',
+    iosBundleId: dotenv.env['IOS_BUNDLE_ID'] ?? '',
   );
 
-  static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyDrSA9u8IBlc_yxPJVENgzUYoQdLCPP3So',
-    appId: '1:234853165577:ios:be992db6ad61965bb5e6d8',
-    messagingSenderId: '234853165577',
-    projectId: 'gerenciador-tarefas-a2b1d',
-    storageBucket: 'gerenciador-tarefas-a2b1d.firebasestorage.app',
-    iosClientId: '234853165577-cnvmfi0kgs48as4v1nuic1vmm9llbi5f.apps.googleusercontent.com',
-    iosBundleId: 'com.example.gerenciadorTarefas',
+  static final FirebaseOptions macos = FirebaseOptions(
+    apiKey: dotenv.env['IOS_API_KEY'] ?? '',
+    appId: dotenv.env['IOS_APP_ID'] ?? '',
+    messagingSenderId: dotenv.env['IOS_MESSAGING_SENDER_ID'] ?? '',
+    projectId: dotenv.env['IOS_PROJECT_ID'] ?? '',
+    storageBucket: dotenv.env['IOS_STORAGE_BUCKET'] ?? '',
+    iosClientId: dotenv.env['IOS_CLIENT_ID'] ?? '',
+    iosBundleId: dotenv.env['IOS_BUNDLE_ID'] ?? '',
   );
 
-  static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyCM0JNR0cL8Oyqb3R8OnnF8FLWLrz0QOCI',
+  static final FirebaseOptions windows = FirebaseOptions(
+    apiKey: dotenv.env['WEB_API_KEY'] ?? '',
     appId: '1:234853165577:web:c875038bfc8c4301b5e6d8',
-    messagingSenderId: '234853165577',
-    projectId: 'gerenciador-tarefas-a2b1d',
-    authDomain: 'gerenciador-tarefas-a2b1d.firebaseapp.com',
-    storageBucket: 'gerenciador-tarefas-a2b1d.firebasestorage.app',
+    messagingSenderId: dotenv.env['WEB_MESSAGING_SENDER_ID'] ?? '',
+    projectId: dotenv.env['WEB_PROJECT_ID'] ?? '',
+    authDomain: dotenv.env['WEB_AUTH_DOMAIN'] ?? '',
+    storageBucket: dotenv.env['WEB_STORAGE_BUCKET'] ?? '',
     measurementId: 'G-LZGL9V9WL4',
   );
-
 }

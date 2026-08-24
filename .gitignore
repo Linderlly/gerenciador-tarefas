@@ -44,6 +44,7 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
+# Build directories
 /build/
 .dart_tool/
 .packages
@@ -52,4 +53,110 @@ android/.gradle/
 android/app/build/
 ios/Pods/
 ios/.symlinks/
+
+#  FIREBASE CONFIGURATION 
+
+# Environment variables (MOST IMPORTANT!)
 .env
+*.env
+
+# Firebase config files
+lib/firebase_config.dart
+lib/*_config.dart
+
+# Firebase options (if you want to keep it safe too)
+# Uncomment if you want to exclude the whole file
+# lib/firebase_options.dart
+
+#  OPERATING SYSTEM SPECIFIC
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Linux
+*~
+
+# DEPENDENCY MANAGEMENT
+
+
+# Pub cache directories
+.pub-cache/
+.pub/
+
+# IDE SPECIFIC
+
+# VS Code (uncomment if needed)
+# .vscode/
+
+# Android Studio
+*.iml
+*.ipr
+*.iws
+.idea/
+.gradle/
+local.properties
+
+#  PLATFORM SPECIFIC
+
+# iOS
+ios/Pods/
+ios/.symlinks/
+ios/Flutter/App.framework
+ios/Flutter/Flutter.framework
+ios/Flutter/Generated.xcconfig
+ios/Flutter/app.flx
+ios/Flutter/app.zip
+ios/Flutter/ios-release/
+ios/Flutter/ios-debug/
+ios/Flutter/ios-profile/
+ios/Runner/GeneratedPluginRegistrant.*
+ios/*.xcworkspace/xcshareddata/
+
+# Android
+android/app/debug/
+android/app/profile/
+android/app/release/
+android/app/build/
+android/.gradle/
+android/local.properties
+android/*.iml
+android/.project
+android/.settings/
+
+# Web
+web/
+
+# 📊 COVERAGE REPORTS
+
+coverage/
+lcov.info
+
+
+#  SECURITY FILES
+
+# Key stores and certificates
+*.jks
+*.keystore
+*.p12
+*.pem
+*.crt
+*.key
+google-services.json
+GoogleService-Info.plist
+firebase_app_id_file.json
+
+#  TEMPORARY FILES
+
+*.tmp
+*.temp
+*.bak
+*.swp
+*~

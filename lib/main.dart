@@ -1,18 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'firebase_options.dart';
 import 'theme/theme.dart';
 import 'screens/login_screen.dart';
 import 'screens/parent_screen.dart';
 import 'screens/child_screen.dart';
+import 'services/cache_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Carrega variáveis de ambiente
+  await dotenv.load(fileName: ".env");
 
   // INICIALIZAÇÃO DO FIREBASE
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  await CacheService().init();
 
   runApp(MyApp());
 }
